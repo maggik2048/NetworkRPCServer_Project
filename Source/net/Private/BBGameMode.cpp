@@ -1,7 +1,7 @@
 ﻿#include "BBGameMode.h"
 #include "Net/UnrealNetwork.h"
 #include "Engine/Engine.h"
-#include "Engine/GameViewportClient.h"
+
 ABBGameMode::ABBGameMode()
 {
     // 기본 GameState 설정
@@ -97,15 +97,7 @@ void ABBGameMode::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (GEngine && GEngine->GameViewport)
-    {
-        TSharedPtr<SWindow> Window = GEngine->GameViewport->GetWindow();
-        if (Window.IsValid())
-        {
-            Window->Resize(FVector2D(800, 600));
-            Window->MoveWindowTo(FVector2D(100, 100)); // 첫 창 위치
-        }
-    }
+    
 
     if (IsRunningDedicatedServer())
     {
@@ -113,20 +105,3 @@ void ABBGameMode::BeginPlay()
     }
 }
 
-
-void SetWindowPosition(int32 WindowIndex)
-{
-    if (GEngine && GEngine->GameViewport)
-    {
-        TSharedPtr<SWindow> Window = GEngine->GameViewport->GetWindow();
-        if (Window.IsValid())
-        {
-            Window->Resize(FVector2D(800, 600));
-
-            // 3개의 창을 가로로 배치
-            int32 XOffset = 50 + WindowIndex * 850; // 50px 간격 + 창 너비
-            int32 YOffset = 50;
-            Window->MoveWindowTo(FVector2D(XOffset, YOffset));
-        }
-    }
-}
