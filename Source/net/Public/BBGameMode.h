@@ -2,9 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "BBPlayerController.h"
-#include "BBPlayerState.h"
 #include "BBGameMode.generated.h"
+
+class ABBPlayerController;
+class ABBPlayerState;
 
 UCLASS()
 class NET_API ABBGameMode : public AGameModeBase
@@ -14,18 +15,15 @@ class NET_API ABBGameMode : public AGameModeBase
 public:
     ABBGameMode();
 
-    UPROPERTY()
-    TArray<int32> AnswerNumbers;
-
-    // 게임 시작 시 정답 생성
-    void GenerateAnswer();
-
-    // 입력 처리
-    void ProcessPlayerInput(ABBPlayerController* PC, const FString& Input);
-
-    // 여기에 추가: BeginPlay 선언
     virtual void BeginPlay() override;
 
+    void ProcessPlayerInput(ABBPlayerController* PC, const FString& Input);
+
 private:
+    void GenerateAnswer();
     FString CheckStrikeBall(const FString& Input);
+    bool IsValidInput(const FString& Input);
+
+private:
+    TArray<int32> AnswerNumbers;
 };
